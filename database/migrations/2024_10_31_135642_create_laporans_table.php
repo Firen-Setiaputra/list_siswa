@@ -14,7 +14,11 @@ return new class extends Migration
         Schema::create('laporans', function (Blueprint $table) {
             $table->id();
             $table->date('tanggal')->unique();
-            $table->integer('jumlah_terlambat')->default(0);
+        $table->unsignedInteger('minggu')->after('tanggal')->nullable()->comment('Nomor minggu keterlambatan');
+        $table->integer('jumlah_terlambat')->default(0);
+            // $table->date('tanggal')->unique();
+            // $table->unsignedInteger('minggu')->after('tanggal')->nullable()->comment('Nomor minggu keterlambatan');
+            // $table->integer('jumlah_terlambat')->default(0);
             $table->timestamps();
         });
         

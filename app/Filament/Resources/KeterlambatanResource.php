@@ -4,22 +4,17 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\KeterlambatanResource\Pages;
 use App\Models\Keterlambatan;
-use App\Models\Siswa; // pastikan Siswa model diimpor
-use App\Models\Laporan; // impor model Laporan
+use App\Models\Siswa;
+use App\Models\laporan; // Pastikan huruf kecil
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\DB; // impor DB jika perlu
-
-
 
 class KeterlambatanResource extends Resource
 {
     protected static ?string $model = Keterlambatan::class;
-
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -52,9 +47,6 @@ class KeterlambatanResource extends Resource
                 Tables\Columns\TextColumn::make('tanggal')->label('Tanggal Keterlambatan'),
                 Tables\Columns\TextColumn::make('waktu')->label('Waktu Keterlambatan'),
                 Tables\Columns\TextColumn::make('alasan')->label('Alasan')->limit(50),
-            ])
-            ->filters([
-                //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -89,12 +81,7 @@ class KeterlambatanResource extends Resource
 
     public static function afterCreate($record): void
     {
-        // Update atau buat entri laporan
-        $week = $record->tanggal->format('W'); // Ambil minggu dari tanggal
-
-        Laporan::updateOrCreate(
-            ['week' => $week],
-            ['jumlah_terlambat' => Laporan::where('week', $week)->sum('jumlah_terlambat') + 1] // Hitung jumlah
-        );
+        // Panggil fungsi untuk menyimpan rekap mingguan
+        LaporanResource::simpanRekapMingguan(); // Panggil method dari LaporanResource
     }
 }
