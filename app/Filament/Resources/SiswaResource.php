@@ -20,6 +20,13 @@ use Filament\Forms\Components\DatePicker;
 class SiswaResource extends Resource
 {
     protected static ?string $model = Siswa::class;
+
+
+    protected static ?string $slug = 'siswa';
+
+    protected static ?string $label = 'Siswa';
+    protected static ?string $pluralLabel = 'Siswa';
+    
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
